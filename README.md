@@ -1,6 +1,4 @@
-# Netnography-and-cosmography-about-catholic-sacred-or-not-algoimages
-
-# Catholic Sacred Art and AI: Research Repository
+# Catholic "Sacred Art" and AI: Research Repository
 
 ## Overview
 
