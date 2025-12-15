@@ -1,0 +1,279 @@
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluxo de Algoritmização das Referências Sacras</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+        .node rect {
+            cursor: move;
+            fill-opacity: .9;
+            shape-rendering: crispEdges;
+        }
+        .node text {
+            pointer-events: none;
+            text-shadow: 0 1px 0 #fff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .link {
+            fill: none;
+            stroke-opacity: .4;
+        }
+        .link:hover {
+            stroke-opacity: .8;
+        }
+        #tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fluxo de Algoritmização das Referências Sacras</h1>
+        <p class="subtitle">Do sagrado tradicional à representação digital</p>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #FFD700;"></div>
+                <span>Fontes Divinas</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #8B4513;"></div>
+                <span>Arte Tradicional</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #4682B4;"></div>
+                <span>Processos Técnicos</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #9370DB;"></div>
+                <span>Sistemas IA</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #32CD32;"></div>
+                <span>Saídas Digitais</span>
+            </div>
+        </div>
+        
+        <svg id="sankey" width="1350" height="700"></svg>
+    </div>
+    
+    <div id="tooltip"></div>
+
+    <script>
+        // Dados do diagrama Sankey
+        const data = {
+            nodes: [
+                // Fontes Divinas (0-4)
+                { name: "Santos Canonizados", category: "divine" },
+                { name: "Tradição Iconográfica", category: "divine" },
+                { name: "Escrituras Sagradas", category: "divine" },
+                { name: "Símbolos Litúrgicos", category: "divine" },
+                { name: "Milagres Documentados", category: "divine" },
+                
+                // Arte Tradicional (5-9)
+                { name: "Pinturas Renascentistas", category: "traditional" },
+                { name: "Esculturas Barrocas", category: "traditional" },
+                { name: "Mosaicos Bizantinos", category: "traditional" },
+                { name: "Manuscritos Iluminados", category: "traditional" },
+                { name: "Vitrais Góticos", category: "traditional" },
+                
+                // Processos Técnicos (10-14)
+                { name: "Digitalização", category: "technical" },
+                { name: "Catalogação", category: "technical" },
+                { name: "Extração de Metadados", category: "technical" },
+                { name: "Análise Iconográfica", category: "technical" },
+                { name: "Processamento de Imagem", category: "technical" },
+                
+                // Sistemas IA (15-19)
+                { name: "Bancos de Dados", category: "ai" },
+                { name: "Algoritmos de Reconhecimento", category: "ai" },
+                { name: "Redes Neurais", category: "ai" },
+                { name: "Modelos Generativos", category: "ai" },
+                { name: "Sistemas de Classificação", category: "ai" },
+                
+                // Saídas Digitais (20-24)
+                { name: "Imagens Sintéticas", category: "output" },
+                { name: "Padrões Identificados", category: "output" },
+                { name: "Referências Automatizadas", category: "output" },
+                { name: "Sugestões Criativas", category: "output" },
+                { name: "Banco de Inspiração", category: "output" }
+            ],
+            
+            links: [
+                // Das fontes divinas para arte tradicional
+                { source: 0, target: 5, value: 15 }, // Santos → Pinturas
+                { source: 0, target: 6, value: 12 }, // Santos → Esculturas
+                { source: 1, target: 7, value: 10 }, // Tradição → Mosaicos
+                { source: 1, target: 8, value: 8 },  // Tradição → Manuscritos
+                { source: 2, target: 9, value: 14 }, // Escrituras → Vitrais
+                { source: 3, target: 5, value: 8 },  // Símbolos → Pinturas
+                { source: 3, target: 7, value: 6 },  // Símbolos → Mosaicos
+                { source: 4, target: 6, value: 5 },  // Milagres → Esculturas
+                
+                // Da arte tradicional para processos técnicos
+                { source: 5, target: 10, value: 20 }, // Pinturas → Digitalização
+                { source: 6, target: 10, value: 15 }, // Esculturas → Digitalização
+                { source: 7, target: 10, value: 12 }, // Mosaicos → Digitalização
+                { source: 8, target: 11, value: 10 }, // Manuscritos → Catalogação
+                { source: 9, target: 11, value: 8 },  // Vitrais → Catalogação
+                
+                { source: 10, target: 12, value: 25 }, // Digitalização → Metadata
+                { source: 11, target: 13, value: 15 }, // Catalogação → Análise
+                { source: 12, target: 14, value: 18 }, // Metadata → Processamento
+                { source: 13, target: 14, value: 12 }, // Análise → Processamento
+                
+                // Dos processos técnicos para sistemas IA
+                { source: 12, target: 15, value: 20 }, // Metadata → Bancos
+                { source: 13, target: 16, value: 15 }, // Análise → Reconhecimento
+                { source: 14, target: 17, value: 25 }, // Processamento → Redes Neurais
+                { source: 14, target: 18, value: 18 }, // Processamento → Generativos
+                { source: 15, target: 19, value: 12 }, // Bancos → Classificação
+                
+                // Dos sistemas IA para saídas digitais
+                { source: 16, target: 21, value: 12 }, // Reconhecimento → Padrões
+                { source: 17, target: 20, value: 15 }, // Redes → Imagens Sintéticas
+                { source: 18, target: 20, value: 20 }, // Generativos → Imagens Sintéticas
+                { source: 18, target: 23, value: 10 }, // Generativos → Sugestões
+                { source: 19, target: 22, value: 8 },  // Classificação → Referências
+                { source: 15, target: 24, value: 18 }, // Bancos → Inspiração
+                { source: 21, target: 24, value: 8 },  // Padrões → Inspiração
+                { source: 22, target: 23, value: 6 }   // Referências → Sugestões
+            ]
+        };
+
+        // Configuração das cores por categoria
+        const colorScale = {
+            divine: "#FFD700",      // Dourado para divino
+            traditional: "#8B4513", // Marrom para tradicional
+            technical: "#4682B4",   // Azul para técnico
+            ai: "#9370DB",          // Roxo para IA
+            output: "#32CD32"       // Verde para saídas
+        };
+
+        // Configuração do SVG
+        const svg = d3.select("#sankey");
+        const width = +svg.attr("width");
+        const height = +svg.attr("height");
+
+        // Configuração do Sankey
+        const sankey = d3.sankey()
+            .nodeWidth(15)
+            .nodePadding(35)
+            .extent([[1, 1], [width - 1, height - 6]]);
+
+        // Gerar o layout
+        const {nodes, links} = sankey(data);
+
+        // Tooltip
+        const tooltip = d3.select("#tooltip");
+
+        // Desenhar os links
+        svg.append("g")
+            .selectAll("path")
+            .data(links)
+            .join("path")
+            .attr("class", "link")
+            .attr("d", d3.sankeyLinkHorizontal())
+            .attr("stroke", d => {
+                const sourceCategory = nodes[d.source.index].category;
+                return colorScale[sourceCategory];
+            })
+            .attr("stroke-width", d => Math.max(1, d.width))
+            .on("mouseover", function(event, d) {
+                tooltip.style("opacity", 1)
+                    .html(`${d.source.name} → ${d.target.name}<br/>Fluxo: ${d.value}`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function() {
+                tooltip.style("opacity", 0);
+            });
+
+        // Desenhar os nós
+        const node = svg.append("g")
+            .selectAll("g")
+            .data(nodes)
+            .join("g")
+            .attr("class", "node");
+
+        node.append("rect")
+            .attr("x", d => d.x0)
+            .attr("y", d => d.y0)
+            .attr("height", d => d.y1 - d.y0)
+            .attr("width", d => d.x1 - d.x0)
+            .attr("fill", d => colorScale[d.category])
+            .attr("stroke", "#000")
+            .on("mouseover", function(event, d) {
+                tooltip.style("opacity", 1)
+                    .html(`${d.name}<br/>Total: ${d.value}`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function() {
+                tooltip.style("opacity", 0);
+            });
+
+        // Adicionar texto aos nós
+        node.append("text")
+            .attr("x", d => d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6)
+            .attr("y", d => (d.y1 + d.y0) / 2)
+            .attr("dy", "0.35em")
+            .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
+            .text(d => d.name)
+            .style("font-size", "14px")
+            .style("fill", "#2c3e50");
+    </script>
+</body>
+</html>
