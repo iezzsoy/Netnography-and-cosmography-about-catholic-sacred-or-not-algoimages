@@ -1,8 +1,9 @@
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fluxo de Algoritmização das Referências Sacras</title>
+    <title>Flow of Algorithmization of Sacred References</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
     <style>
@@ -80,29 +81,29 @@
 </head>
 <body>
     <div class="container">
-        <h1>Fluxo de Algoritmização das Referências Sacras</h1>
-        <p class="subtitle">Do sagrado tradicional à representação digital</p>
+        <h1>Flow of Algorithmization of Sacred References</h1>
+        <p class="subtitle">From traditional sacred to digital representation</p>
         
         <div class="legend">
             <div class="legend-item">
                 <div class="legend-color" style="background: #FFD700;"></div>
-                <span>Fontes Divinas</span>
+                <span>Divine Sources</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: #8B4513;"></div>
-                <span>Arte Tradicional</span>
+                <span>Traditional Art</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: #4682B4;"></div>
-                <span>Processos Técnicos</span>
+                <span>Technical Processes</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: #9370DB;"></div>
-                <span>Sistemas IA</span>
+                <span>AI Systems</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: #32CD32;"></div>
-                <span>Saídas Digitais</span>
+                <span>Digital Outputs</span>
             </div>
         </div>
         
@@ -112,114 +113,114 @@
     <div id="tooltip"></div>
 
     <script>
-        // Dados do diagrama Sankey
+        // Sankey diagram data
         const data = {
             nodes: [
-                // Fontes Divinas (0-4)
-                { name: "Santos Canonizados", category: "divine" },
-                { name: "Tradição Iconográfica", category: "divine" },
-                { name: "Escrituras Sagradas", category: "divine" },
-                { name: "Símbolos Litúrgicos", category: "divine" },
-                { name: "Milagres Documentados", category: "divine" },
+                // Divine Sources (0-4)
+                { name: "Canonized Saints", category: "divine" },
+                { name: "Iconographic Tradition", category: "divine" },
+                { name: "Sacred Scriptures", category: "divine" },
+                { name: "Liturgical Symbols", category: "divine" },
+                { name: "Documented Miracles", category: "divine" },
                 
-                // Arte Tradicional (5-9)
-                { name: "Pinturas Renascentistas", category: "traditional" },
-                { name: "Esculturas Barrocas", category: "traditional" },
-                { name: "Mosaicos Bizantinos", category: "traditional" },
-                { name: "Manuscritos Iluminados", category: "traditional" },
-                { name: "Vitrais Góticos", category: "traditional" },
+                // Traditional Art (5-9)
+                { name: "Renaissance Paintings", category: "traditional" },
+                { name: "Baroque Sculptures", category: "traditional" },
+                { name: "Byzantine Mosaics", category: "traditional" },
+                { name: "Illuminated Manuscripts", category: "traditional" },
+                { name: "Gothic Stained Glass", category: "traditional" },
                 
-                // Processos Técnicos (10-14)
-                { name: "Digitalização", category: "technical" },
-                { name: "Catalogação", category: "technical" },
-                { name: "Extração de Metadados", category: "technical" },
-                { name: "Análise Iconográfica", category: "technical" },
-                { name: "Processamento de Imagem", category: "technical" },
+                // Technical Processes (10-14)
+                { name: "Digitalization", category: "technical" },
+                { name: "Cataloging", category: "technical" },
+                { name: "Metadata Extraction", category: "technical" },
+                { name: "Iconographic Analysis", category: "technical" },
+                { name: "Image Processing", category: "technical" },
                 
-                // Sistemas IA (15-19)
-                { name: "Bancos de Dados", category: "ai" },
-                { name: "Algoritmos de Reconhecimento", category: "ai" },
-                { name: "Redes Neurais", category: "ai" },
-                { name: "Modelos Generativos", category: "ai" },
-                { name: "Sistemas de Classificação", category: "ai" },
+                // AI Systems (15-19)
+                { name: "Databases", category: "ai" },
+                { name: "Recognition Algorithms", category: "ai" },
+                { name: "Neural Networks", category: "ai" },
+                { name: "Generative Models", category: "ai" },
+                { name: "Classification Systems", category: "ai" },
                 
-                // Saídas Digitais (20-24)
-                { name: "Imagens Sintéticas", category: "output" },
-                { name: "Padrões Identificados", category: "output" },
-                { name: "Referências Automatizadas", category: "output" },
-                { name: "Sugestões Criativas", category: "output" },
-                { name: "Banco de Inspiração", category: "output" }
+                // Digital Outputs (20-24)
+                { name: "Synthetic Images", category: "output" },
+                { name: "Identified Patterns", category: "output" },
+                { name: "Automated References", category: "output" },
+                { name: "Creative Suggestions", category: "output" },
+                { name: "Inspiration Bank", category: "output" }
             ],
             
             links: [
-                // Das fontes divinas para arte tradicional
-                { source: 0, target: 5, value: 15 }, // Santos → Pinturas
-                { source: 0, target: 6, value: 12 }, // Santos → Esculturas
-                { source: 1, target: 7, value: 10 }, // Tradição → Mosaicos
-                { source: 1, target: 8, value: 8 },  // Tradição → Manuscritos
-                { source: 2, target: 9, value: 14 }, // Escrituras → Vitrais
-                { source: 3, target: 5, value: 8 },  // Símbolos → Pinturas
-                { source: 3, target: 7, value: 6 },  // Símbolos → Mosaicos
-                { source: 4, target: 6, value: 5 },  // Milagres → Esculturas
+                // From divine sources to traditional art
+                { source: 0, target: 5, value: 15 }, // Saints → Paintings
+                { source: 0, target: 6, value: 12 }, // Saints → Sculptures
+                { source: 1, target: 7, value: 10 }, // Tradition → Mosaics
+                { source: 1, target: 8, value: 8 },  // Tradition → Manuscripts
+                { source: 2, target: 9, value: 14 }, // Scriptures → Stained Glass
+                { source: 3, target: 5, value: 8 },  // Symbols → Paintings
+                { source: 3, target: 7, value: 6 },  // Symbols → Mosaics
+                { source: 4, target: 6, value: 5 },  // Miracles → Sculptures
                 
-                // Da arte tradicional para processos técnicos
-                { source: 5, target: 10, value: 20 }, // Pinturas → Digitalização
-                { source: 6, target: 10, value: 15 }, // Esculturas → Digitalização
-                { source: 7, target: 10, value: 12 }, // Mosaicos → Digitalização
-                { source: 8, target: 11, value: 10 }, // Manuscritos → Catalogação
-                { source: 9, target: 11, value: 8 },  // Vitrais → Catalogação
+                // From traditional art to technical processes
+                { source: 5, target: 10, value: 20 }, // Paintings → Digitalization
+                { source: 6, target: 10, value: 15 }, // Sculptures → Digitalization
+                { source: 7, target: 10, value: 12 }, // Mosaics → Digitalization
+                { source: 8, target: 11, value: 10 }, // Manuscripts → Cataloging
+                { source: 9, target: 11, value: 8 },  // Stained Glass → Cataloging
                 
-                { source: 10, target: 12, value: 25 }, // Digitalização → Metadata
-                { source: 11, target: 13, value: 15 }, // Catalogação → Análise
-                { source: 12, target: 14, value: 18 }, // Metadata → Processamento
-                { source: 13, target: 14, value: 12 }, // Análise → Processamento
+                { source: 10, target: 12, value: 25 }, // Digitalization → Metadata
+                { source: 11, target: 13, value: 15 }, // Cataloging → Analysis
+                { source: 12, target: 14, value: 18 }, // Metadata → Processing
+                { source: 13, target: 14, value: 12 }, // Analysis → Processing
                 
-                // Dos processos técnicos para sistemas IA
-                { source: 12, target: 15, value: 20 }, // Metadata → Bancos
-                { source: 13, target: 16, value: 15 }, // Análise → Reconhecimento
-                { source: 14, target: 17, value: 25 }, // Processamento → Redes Neurais
-                { source: 14, target: 18, value: 18 }, // Processamento → Generativos
-                { source: 15, target: 19, value: 12 }, // Bancos → Classificação
+                // From technical processes to AI systems
+                { source: 12, target: 15, value: 20 }, // Metadata → Databases
+                { source: 13, target: 16, value: 15 }, // Analysis → Recognition
+                { source: 14, target: 17, value: 25 }, // Processing → Neural Networks
+                { source: 14, target: 18, value: 18 }, // Processing → Generative
+                { source: 15, target: 19, value: 12 }, // Databases → Classification
                 
-                // Dos sistemas IA para saídas digitais
-                { source: 16, target: 21, value: 12 }, // Reconhecimento → Padrões
-                { source: 17, target: 20, value: 15 }, // Redes → Imagens Sintéticas
-                { source: 18, target: 20, value: 20 }, // Generativos → Imagens Sintéticas
-                { source: 18, target: 23, value: 10 }, // Generativos → Sugestões
-                { source: 19, target: 22, value: 8 },  // Classificação → Referências
-                { source: 15, target: 24, value: 18 }, // Bancos → Inspiração
-                { source: 21, target: 24, value: 8 },  // Padrões → Inspiração
-                { source: 22, target: 23, value: 6 }   // Referências → Sugestões
+                // From AI systems to digital outputs
+                { source: 16, target: 21, value: 12 }, // Recognition → Patterns
+                { source: 17, target: 20, value: 15 }, // Networks → Synthetic Images
+                { source: 18, target: 20, value: 20 }, // Generative → Synthetic Images
+                { source: 18, target: 23, value: 10 }, // Generative → Suggestions
+                { source: 19, target: 22, value: 8 },  // Classification → References
+                { source: 15, target: 24, value: 18 }, // Databases → Inspiration
+                { source: 21, target: 24, value: 8 },  // Patterns → Inspiration
+                { source: 22, target: 23, value: 6 }   // References → Suggestions
             ]
         };
 
-        // Configuração das cores por categoria
+        // Color configuration by category
         const colorScale = {
-            divine: "#FFD700",      // Dourado para divino
-            traditional: "#8B4513", // Marrom para tradicional
-            technical: "#4682B4",   // Azul para técnico
-            ai: "#9370DB",          // Roxo para IA
-            output: "#32CD32"       // Verde para saídas
+            divine: "#FFD700",      // Gold for divine
+            traditional: "#8B4513", // Brown for traditional
+            technical: "#4682B4",   // Blue for technical
+            ai: "#9370DB",          // Purple for AI
+            output: "#32CD32"       // Green for outputs
         };
 
-        // Configuração do SVG
+        // SVG configuration
         const svg = d3.select("#sankey");
         const width = +svg.attr("width");
         const height = +svg.attr("height");
 
-        // Configuração do Sankey
+        // Sankey configuration
         const sankey = d3.sankey()
             .nodeWidth(15)
             .nodePadding(35)
             .extent([[1, 1], [width - 1, height - 6]]);
 
-        // Gerar o layout
+        // Generate layout
         const {nodes, links} = sankey(data);
 
         // Tooltip
         const tooltip = d3.select("#tooltip");
 
-        // Desenhar os links
+        // Draw links
         svg.append("g")
             .selectAll("path")
             .data(links)
@@ -233,7 +234,7 @@
             .attr("stroke-width", d => Math.max(1, d.width))
             .on("mouseover", function(event, d) {
                 tooltip.style("opacity", 1)
-                    .html(`${d.source.name} → ${d.target.name}<br/>Fluxo: ${d.value}`)
+                    .html(`${d.source.name} → ${d.target.name}<br/>Flow: ${d.value}`)
                     .style("left", (event.pageX + 10) + "px")
                     .style("top", (event.pageY - 10) + "px");
             })
@@ -241,7 +242,7 @@
                 tooltip.style("opacity", 0);
             });
 
-        // Desenhar os nós
+        // Draw nodes
         const node = svg.append("g")
             .selectAll("g")
             .data(nodes)
@@ -265,7 +266,7 @@
                 tooltip.style("opacity", 0);
             });
 
-        // Adicionar texto aos nós
+        // Add text to nodes
         node.append("text")
             .attr("x", d => d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6)
             .attr("y", d => (d.y1 + d.y0) / 2)
