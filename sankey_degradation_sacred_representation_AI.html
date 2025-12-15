@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Degradation of Sacred Representation in AI</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #c0392b;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #e74c3c;
+            margin-bottom: 30px;
+            font-style: italic;
+            font-weight: bold;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+        .node rect {
+            cursor: move;
+            fill-opacity: .9;
+            shape-rendering: crispEdges;
+            stroke: #2c3e50;
+            stroke-width: 1px;
+        }
+        .node text {
+            pointer-events: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .link {
+            fill: none;
+            stroke-opacity: .5;
+        }
+        .link:hover {
+            stroke-opacity: .9;
+        }
+        #tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            max-width: 250px;
+            border: 2px solid #e74c3c;
+        }
+        .warning {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚠️ Degradation of Sacred Representation in AI ⚠️</h1>
+        <p class="subtitle">How generic algorithms corrupt sacred symbols</p>
+        
+        <div class="warning">
+            WARNING: This diagram shows common errors in AI-generated sacred images
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #27ae60;"></div>
+                <span>Authentic Sources</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #f39c12;"></div>
+                <span>Contaminated Datasets</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #8e44ad;"></div>
+                <span>Generic Processing</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #e74c3c;"></div>
+                <span>Critical Errors</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #34495e;"></div>
+                <span>Problematic Outputs</span>
+            </div>
+        </div>
+        
+        <svg id="sankey" width="1350" height="800"></svg>
+    </div>
+    
+    <div id="tooltip"></div>
+    <script>
+        // Sankey diagram data with focus on errors
+        const data = {
+            nodes: [
+                // Authentic Sources (0-4)
+                { name: "Traditional Iconography", category: "authentic", error: false },
+                { name: "Historical Sacred Art", category: "authentic", error: false },
+                { name: "Church Documents", category: "authentic", error: false },
+                { name: "Canonical Symbols", category: "authentic", error: false },
+                { name: "Official Hagiographies", category: "authentic", error: false },
+                
+                // Contaminated Datasets (5-9)
+                { name: "Fantasy Images", category: "contaminated", error: true },
+                { name: "Pop/Commercial Art", category: "contaminated", error: true },
+                { name: "Incorrect Representations", category: "contaminated", error: true },
+                { name: "Memes and Parodies", category: "contaminated", error: true },
+                { name: "Free Interpretations", category: "contaminated", error: true },
+                
+                // Generic Processing (10-14)
+                { name: "Context-Less Algorithms", category: "generic", error: true },
+                { name: "Random Mixing", category: "generic", error: true },
+                { name: "Blind Interpolation", category: "generic", error: true },
+                { name: "False Correlations", category: "generic", error: true },
+                { name: "Inadequate Weights", category: "generic", error: true },
+                
+                // Critical Errors (15-24)
+                { name: "Swapped Symbols", category: "critical", error: true },
+                { name: "Incorrect Colors", category: "critical", error: true },
+                { name: "Distorted Anatomy", category: "critical", error: true },
+                { name: "Inadequate Halos", category: "critical", error: true },
+                { name: "Wrong Clothing", category: "critical", error: true },
+                { name: "Faulty Perspective", category: "critical", error: true },
+                { name: "Profane Lighting", category: "critical", error: true },
+                { name: "Inappropriate Gestures", category: "critical", error: true },
+                { name: "Lost Context", category: "critical", error: true },
+                { name: "Wrong Proportions", category: "critical", error: true },
+                
+                // Problematic Outputs (25-29)
+                { name: "Unrecognizable Saints", category: "output", error: true },
+                { name: "Blasphemous Symbols", category: "output", error: true },
+                { name: "Profane Aesthetics", category: "output", error: true },
+                { name: "Lost References", category: "output", error: true },
+                { name: "Theological Confusion", category: "output", error: true }
+            ],
+            
+            links: [
+                // Authentic sources being contaminated
+                { source: 0, target: 5, value: 8, error: true },  // Iconography → Fantasy
+                { source: 1, target: 6, value: 12, error: true }, // Art → Commercial
+                { source: 2, target: 7, value: 6, error: true },  // Documents → Incorrect
+                { source: 3, target: 8, value: 10, error: true }, // Symbols → Memes
+                { source: 4, target: 9, value: 7, error: true },  // Hagiographies → Free
+                
+                // Contaminated data feeding generic processing
+                { source: 5, target: 10, value: 15, error: true }, // Fantasy → Context-Less
+                { source: 6, target: 11, value: 18, error: true }, // Commercial → Mixing
+                { source: 7, target: 12, value: 12, error: true }, // Incorrect → Interpolation
+                { source: 8, target: 13, value: 14, error: true }, // Memes → Correlations
+                { source: 9, target: 14, value: 10, error: true }, // Free → Weights
+                
+                // Generic processing generating critical errors
+                { source: 10, target: 15, value: 8, error: true },  // Context-Less → Swapped Symbols
+                { source: 10, target: 16, value: 6, error: true },  // Context-Less → Colors
+                { source: 11, target: 17, value: 12, error: true }, // Mixing → Anatomy
+                { source: 11, target: 18, value: 9, error: true },  // Mixing → Halos
+                { source: 12, target: 19, value: 10, error: true }, // Interpolation → Clothing
+                { source: 12, target: 20, value: 8, error: true },  // Interpolation → Perspective
+                { source: 13, target: 21, value: 11, error: true }, // Correlations → Lighting
+                { source: 13, target: 22, value: 7, error: true },  // Correlations → Gestures
+                { source: 14, target: 23, value: 9, error: true },  // Weights → Context
+                { source: 14, target: 24, value: 6, error: true },  // Weights → Proportions
+                
+                // Critical errors generating problematic outputs
+                { source: 15, target: 25, value: 8, error: true },  // Symbols → Unrecognizable
+                { source: 16, target: 26, value: 6, error: true },  // Colors → Blasphemous
+                { source: 17, target: 27, value: 10, error: true }, // Anatomy → Profane
+                { source: 18, target: 28, value: 7, error: true },  // Halos → Lost
+                { source: 19, target: 29, value: 8, error: true },  // Clothing → Confusion
+                { source: 20, target: 27, value: 5, error: true },  // Perspective → Profane
+                { source: 21, target: 26, value: 9, error: true },  // Lighting → Blasphemous
+                { source: 22, target: 25, value: 6, error: true },  // Gestures → Unrecognizable
+                { source: 23, target: 28, value: 8, error: true },  // Context → Lost
+                { source: 24, target: 29, value: 7, error: true }   // Proportions → Confusion
+            ]
+        };
+        // Color configuration by category
+        const colorScale = {
+            authentic: "#27ae60",    // Green for authentic
+            contaminated: "#f39c12", // Orange for contaminated
+            generic: "#8e44ad",      // Purple for generic
+            critical: "#e74c3c",     // Red for critical
+            output: "#34495e"        // Dark gray for outputs
+        };
+        // Detailed error descriptions
+        const errorDescriptions = {
+            "Fantasy Images": "Fantasy art mixed with sacred iconography",
+            "Pop/Commercial Art": "Commercial representations distorting symbols",
+            "Incorrect Representations": "Historically incorrect interpretations",
+            "Memes and Parodies": "Humorous content contaminating datasets",
+            "Free Interpretations": "Adaptations without theological rigor",
+            "Context-Less Algorithms": "AI that doesn't understand sacred meaning",
+            "Random Mixing": "Combinations without theological criteria",
+            "Blind Interpolation": "Automatic fusion ignoring symbols",
+            "False Correlations": "Incorrect statistical associations",
+            "Inadequate Weights": "Wrong prioritization of elements",
+            "Swapped Symbols": "St. Peter with St. Paul's keys, etc.",
+            "Incorrect Colors": "Blue cloaks becoming red, etc.",
+            "Distorted Anatomy": "Extra hands, deformed faces, etc.",
+            "Inadequate Halos": "Haloes with wrong shape/size",
+            "Wrong Clothing": "Period-inappropriate or inadequate clothing",
+            "Faulty Perspective": "Compositions without sacred visual hierarchy",
+            "Profane Lighting": "Dramatic lighting losing sacredness",
+            "Inappropriate Gestures": "Theologically incorrect hand positions",
+            "Lost Context": "Inappropriate settings for saints",
+            "Wrong Proportions": "Lost divine vs. human scale",
+            "Unrecognizable Saints": "Images that confuse identification",
+            "Blasphemous Symbols": "Elements that offend the faith",
+            "Profane Aesthetics": "Visual appearance that desacralizes the image",
+            "Lost References": "Lost connection with tradition",
+            "Theological Confusion": "Distorted spiritual message"
+        };
+        // SVG configuration
+        const svg = d3.select("#sankey");
+        const width = +svg.attr("width");
+        const height = +svg.attr("height");
+        // Sankey configuration
+        const sankey = d3.sankey()
+            .nodeWidth(15)
+            .nodePadding(8)
+            .extent([[1, 1], [width - 1, height - 6]]);
+        // Generate layout
+        const {nodes, links} = sankey(data);
+        // Tooltip
+        const tooltip = d3.select("#tooltip");
+        // Draw links - REMOVED STRIPED EFFECT
+        svg.append("g")
+            .selectAll("path")
+            .data(links)
+            .join("path")
+            .attr("class", "link")
+            .attr("d", d3.sankeyLinkHorizontal())
+            .attr("stroke", d => {
+                const sourceCategory = nodes[d.source.index].category;
+                return colorScale[sourceCategory];
+            })
+            .attr("stroke-width", d => Math.max(2, d.width))
+            .on("mouseover", function(event, d) {
+                const errorInfo = d.error ? "<br/><strong style='color:#e74c3c'>⚠️ ERROR FLOW</strong>" : "";
+                tooltip.style("opacity", 1)
+                    .html(`${d.source.name} → ${d.target.name}<br/>Intensity: ${d.value}${errorInfo}`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function() {
+                tooltip.style("opacity", 0);
+            });
+        // Draw nodes
+        const node = svg.append("g")
+            .selectAll("g")
+            .data(nodes)
+            .join("g")
+            .attr("class", "node");
+        node.append("rect")
+            .attr("x", d => d.x0)
+            .attr("y", d => d.y0)
+            .attr("height", d => d.y1 - d.y0)
+            .attr("width", d => d.x1 - d.x0)
+            .attr("fill", d => colorScale[d.category])
+            .attr("opacity", d => d.error ? 0.8 : 0.9)
+            .on("mouseover", function(event, d) {
+                const description = errorDescriptions[d.name] || "Process element";
+                const errorWarning = d.error ? "<br/><strong style='color:#e74c3c'>⚠️ SOURCE OF ERROR</strong>" : "";
+                tooltip.style("opacity", 1)
+                    .html(`<strong>${d.name}</strong><br/>${description}<br/>Volume: ${d.value}${errorWarning}`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function() {
+                tooltip.style("opacity", 0);
+            });
+        // Add text to nodes
+        node.append("text")
+            .attr("x", d => d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6)
+            .attr("y", d => (d.y1 + d.y0) / 2)
+            .attr("dy", "0.35em")
+            .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
+            .text(d => d.name)
+            .style("font-size", "14px")
+            .style("fill", "#2c3e50")
+            .style("font-weight", "bold")
+            .style("text-shadow", "2px 2px 4px rgba(255,255,255,0.9), -1px -1px 2px rgba(255,255,255,0.9), 1px -1px 2px rgba(255,255,255,0.9), -1px 1px 2px rgba(255,255,255,0.9)");
+        // Add warning icons on problematic nodes
+        node.filter(d => d.error)
+            .append("text")
+            .attr("x", d => d.x0 < width / 2 ? d.x1 + 2 : d.x0 - 2)
+            .attr("y", d => d.y0 - 2)
+            .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
+            .text("⚠️")
+            .style("font-size", "12px");
+    </script>
+</body>
+</html>
