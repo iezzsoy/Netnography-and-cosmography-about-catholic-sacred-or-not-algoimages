@@ -1,4 +1,4 @@
-**E5**
+## E5
 
 **Q1.**
 Form (Expression)
@@ -22,7 +22,8 @@ Clarity
 Structure
 Meaning
 Category (b) response
-# also presented what she doesn't approve: the playful, the disconnected and the unknowable.
+
+also presented what she doesn't approve: the playful, the disconnected and the unknowable.
 
 **Q4.**
 Yes
